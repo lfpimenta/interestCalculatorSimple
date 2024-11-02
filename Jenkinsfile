@@ -1,6 +1,6 @@
 node {
     stage("SCM checkout") {
-        git 'https://github.com/lfpimenta/interestCalculatorSimple'
+        git branch: 'main', url: 'https://github.com/lfpimenta/interestCalculatorSimple'
     }
     stage("Clean") {
         sh 'mvn clean'
