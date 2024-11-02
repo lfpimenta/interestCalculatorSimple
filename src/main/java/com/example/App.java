@@ -8,23 +8,40 @@ import java.util.Scanner;
  */
 public class App {
     public static void main(String[] args) {
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.print("Enter loan amount: ");
-            double loanAmount = scanner.nextDouble();
+        double loanAmount;
+        double interestRate;
+        int loanTermYears;
 
-            System.out.print("Enter annual interest rate (%): ");
-            double interestRate = scanner.nextDouble();
+        try {
 
-            System.out.print("Enter loan term (years): ");
-            int loanTermYears = scanner.nextInt();
+            if (args.length == 3) {
+                // Get parameters from command line arguments
+                loanAmount = Double.parseDouble(args[0]);
+                interestRate = Double.parseDouble(args[1]);
+                loanTermYears = Integer.parseInt(args[2]);
+            } else {
+                try (Scanner scanner = new Scanner(System.in)) {
+                    System.out.print("Enter loan amount: ");
+                    loanAmount = scanner.nextDouble();
 
-            HouseLoanCalculator calculator = new HouseLoanCalculator(loanAmount, interestRate, loanTermYears);
+                    System.out.print("Enter annual interest rate (%): ");
+                    interestRate = scanner.nextDouble();
 
-            double monthlyPayment = calculator.calculateMonthlyPayment();
-            double totalCost = calculator.calculateTotalCost();
-
-            System.out.println("Monthly payment: " + monthlyPayment);
-            System.out.println("Total cost: " + totalCost);
+                    System.out.print("Enter loan term (years): ");
+                    loanTermYears = scanner.nextInt();
+                }
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return;
         }
+
+        HouseLoanCalculator calculator = new HouseLoanCalculator(loanAmount, interestRate, loanTermYears);
+
+        double monthlyPayment = calculator.calculateMonthlyPayment();
+        double totalCost = calculator.calculateTotalCost();
+
+        System.out.println("Monthly payment: " + monthlyPayment);
+        System.out.println("Total cost: " + totalCost);
     }
 }
